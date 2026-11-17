@@ -1,0 +1,29 @@
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Archivos temporales de Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Configuración local
+.env
+.env.*
+!.env.example
+
+# Archivos del editor y sistema
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Modelos entrenados
+*.pt
+*.pth
+*.onnx
+
+# Archivos temporales
+*.log
+*.tmp   

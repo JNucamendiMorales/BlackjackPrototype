@@ -1,0 +1,6 @@
+source,filename,value,suit
+dataset/indices_clean/dealer/20261115_015510_413126_02.png,7_diamantes_3258b3a92206.png,7,diamantes
+dataset/indices_clean/player_1/20261115_015433_483185_01.png,Q_corazones_e37b47880e14.png,Q,corazones
+dataset/indices_clean/player_1/20261115_015433_483185_02.png,10_diamantes_272d67ec84c2.png,10,diamantes
+dataset/indices_clean/dealer/20261115_015510_413126_01.png,9_picas_40850faf02e3.png,9,picas
+training_capture/dealer/20261115_114415_958629.png,7_diamantes_8c389ab525ef.png,7,diamantes
