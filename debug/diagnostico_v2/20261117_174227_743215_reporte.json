@@ -1,0 +1,112 @@
+{
+  "fecha": "20261117_174227_743215",
+  "cartas_detectadas": 3,
+  "estabilidad_4_cartas": 0.8041,
+  "area_minima_configurada": 3000,
+  "candidatos": [
+    {
+      "fuente": "original",
+      "id": 1,
+      "area": 13654.5,
+      "razon": 1.321,
+      "relleno": 0.798,
+      "centro": [
+        87.3,
+        114.5
+      ],
+      "estado": "aceptado",
+      "motivo": "4 vertices"
+    },
+    {
+      "fuente": "original",
+      "id": 2,
+      "area": 13850.5,
+      "razon": 1.132,
+      "relleno": 0.882,
+      "centro": [
+        209.6,
+        115.0
+      ],
+      "estado": "aceptado",
+      "motivo": "4 vertices"
+    },
+    {
+      "fuente": "original",
+      "id": 3,
+      "area": 13598.0,
+      "razon": 1.08,
+      "relleno": 0.931,
+      "centro": [
+        340.1,
+        104.6
+      ],
+      "estado": "aceptado",
+      "motivo": "4 vertices"
+    },
+    {
+      "fuente": "original",
+      "id": 4,
+      "area": 14102.5,
+      "razon": 1.042,
+      "relleno": 0.918,
+      "centro": [
+        483.5,
+        107.0
+      ],
+      "estado": "rechazado",
+      "motivo": "razon fuera de rango"
+    },
+    {
+      "fuente": "respaldo",
+      "id": 1,
+      "area": 14064.0,
+      "razon": 1.322,
+      "relleno": 0.797,
+      "centro": [
+        87.2,
+        114.4
+      ],
+      "estado": "aceptado",
+      "motivo": "4 vertices"
+    },
+    {
+      "fuente": "respaldo",
+      "id": 2,
+      "area": 14234.5,
+      "razon": 1.133,
+      "relleno": 0.88,
+      "centro": [
+        209.5,
+        115.0
+      ],
+      "estado": "aceptado",
+      "motivo": "4 vertices"
+    },
+    {
+      "fuente": "respaldo",
+      "id": 3,
+      "area": 13960.0,
+      "razon": 1.075,
+      "relleno": 0.928,
+      "centro": [
+        340.2,
+        104.6
+      ],
+      "estado": "aceptado",
+      "motivo": "4 vertices"
+    },
+    {
+      "fuente": "respaldo",
+      "id": 4,
+      "area": 14487.0,
+      "razon": 1.04,
+      "relleno": 0.917,
+      "centro": [
+        483.8,
+        107.0
+      ],
+      "estado": "rechazado",
+      "motivo": "razon fuera de rango"
+    }
+  ]
+}
