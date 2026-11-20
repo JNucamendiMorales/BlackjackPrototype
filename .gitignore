@@ -27,3 +27,16 @@ Thumbs.db
 # Archivos temporales
 *.log
 *.tmp   
+# Estado local de la baraja
+data/deck_state.json
+
+# Respaldos del desarrollo
+src/main_backup.py
+src/main_respaldo.py
+src/main_blackjack_integrado.py
+src/expected_value_respaldo.py
+src/expected_value_optimizado_respaldo.py
+
+# Archivos de respaldo del editor
+*.bak
+*~

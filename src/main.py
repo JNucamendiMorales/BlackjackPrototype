@@ -4,6 +4,8 @@ Ejecutar desde la raíz del proyecto: python src/main.py
 import time
 import sys
 from pathlib import Path
+from deck_memory import DeckMemory
+from expert_bridge import recommend_basic
 
 ROOT = Path(__file__).resolve().parents[1]
 MAP_FILE = ROOT / 'config' / 'nfc_cards.json'
@@ -81,14 +83,29 @@ class ManualReader:
 
 
 def parse_nfc_text(text):
-    """Convierte 8|♣ al formato interno 8_T."""
-    symbols = {'♥': 'C', '♦': 'D', '♣': 'T', '♠': 'P'}
+    """Convierte el texto NFC al formato interno de Blackjack."""
+
+    symbols = {
+        '♥': 'C',
+        '♦': 'D',
+        '♣': 'T',
+        '♠': 'P'
+    }
+
+    # Eliminar selectores Unicode de presentación emoji/texto.
+    text = text.replace('\ufe0f', '').replace('\ufe0e', '')
+
     pieces = text.strip().split('|')
+
     if len(pieces) != 2:
         raise ValueError(f'Texto NFC inesperado: {text!r}')
-    rank, symbol = pieces[0].strip().upper(), pieces[1].strip()
+
+    rank = pieces[0].strip().upper()
+    symbol = pieces[1].strip()
+
     if symbol not in symbols:
         raise ValueError(f'Palo NFC no reconocido: {symbol!r}')
+
     return normalize_card(f'{rank}_{symbols[symbol]}')
 
 
@@ -214,9 +231,8 @@ class NFCReader:
             return False
 
     def read(self):
-        print('\nAcerca una carta al ACR122U y retírala después de leerla.')
+        print('\nEsperando respuesta...')
         if self.wait_for_removal:
-            print('Esperando que retires la etiqueta anterior...')
             while self.tag_present():
                 time.sleep(0.25)
             self.wait_for_removal = False
@@ -274,55 +290,127 @@ def dashboard(players, dealer, turn='', status='', reveal_dealer=False, results=
     print('─' * 66)
 
 
-def deal(reader, person, used, players, dealer, reveal_dealer=False):
+def deal(reader, person, deck, players, dealer, reveal_dealer=False):
     while True:
-        dashboard(players, dealer, person, 'Esperando carta...', reveal_dealer)
+
+        if deck.is_empty():
+            raise RuntimeError(
+                "Baraja agotada. Es necesario reiniciar las 52 cartas."
+            )
+
+        dashboard(
+            players,
+            dealer,
+            person,
+            f'Esperando carta... | Restantes: {deck.remaining()}',
+            reveal_dealer
+        )
+
         card = reader.read()
-        if card in used:
-            dashboard(players, dealer, person,
-                      f'{card_symbol(card)} ya se utilizó. Intenta otra carta.', reveal_dealer)
+
+        if not deck.register(card):
+            dashboard(
+                players,
+                dealer,
+                person,
+                f'{card_symbol(card)} ya fue utilizada en esta baraja.',
+                reveal_dealer
+            )
+
             input('Presiona Enter para continuar...')
             continue
-        used.add(card)
+
         return card
 
 
-def play(reader):
-    n = ask_int('\n¿Cuántos jugadores? (1-3): ', 1, 3)
+def play(reader, deck, n):
+    """Una mano; el dealer es operado físicamente por quien dirige el juego."""
     players = {f'Jugador {i}': [] for i in range(1, n + 1)}
     dealer = []
-    used = set()
+
     for _ in range(2):
         for name, hand in players.items():
-            hand.append(deal(reader, name, used, players, dealer))
+            hand.append(deal(reader, name, deck, players, dealer))
             dashboard(players, dealer, name, 'Carta asignada')
-        dealer.append(deal(reader, 'Dealer', used, players, dealer))
+        dealer.append(deal(reader, 'Dealer', deck, players, dealer))
         dashboard(players, dealer, 'Dealer', 'Carta asignada')
 
     for name, hand in players.items():
         if score(hand) == 21:
-            dashboard(players, dealer, name, 'BLACKJACK natural')
-            input('Presiona Enter para continuar...')
+            dashboard(players, dealer, name, 'BLACKJACK NATURAL - TURNO FINALIZADO')
+            input('Presiona ENTER para continuar...')
             continue
+
         while score(hand) < 21:
-            dashboard(players, dealer, name, 'Elige pedir o plantarte')
-            choice = input('¿Pedir carta (P) o plantarse (S)? ').strip().upper()
+            dashboard(
+            players,
+            dealer,
+            name,
+            'Esperando respuesta...'
+            )
+
+            # SISTEMA EXPERTO EN PROLOG
+            # Solo se consulta la carta visible del dealer.
+            try:
+                recommendation = recommend_basic(
+                    hand,
+                    dealer[0]
+                )
+
+                print('\n' + '═' * 50)
+                print('             SISTEMA EXPERTO PROLOG')
+                print('═' * 50)
+                print(f'Jugador: {name}')
+                print(f'Puntuación: {score(hand)}')
+                print(f'Estrategia básica: {recommendation}')
+                print('═' * 50)
+
+            except Exception as exc:
+                print(
+                    '\nNo se pudo consultar Prolog: '
+                    f'{exc}'
+                )
+
+            # El jugador conserva la decisión final.
+            choice = input(
+                '\n¿Pedir carta (P) o plantarse (S)? '
+            ).strip().upper()
+
             if choice == 'S':
                 break
+
             if choice != 'P':
                 continue
-            hand.append(deal(reader, name, used, players, dealer))
-            dashboard(players, dealer, name, 'Carta asignada')
-        if score(hand) > 21:
-            dashboard(players, dealer, name, 'Se pasó de 21')
-        elif score(hand) == 21:
-            dashboard(players, dealer, name, 'Llegó a 21')
 
-    dashboard(players, dealer, 'Dealer', 'Revelando carta oculta', True)
+            hand.append(
+                deal(reader, name, deck, players, dealer)
+            )
+
+            dashboard(
+                players,
+                dealer,
+                name,
+                'Carta asignada'
+            )
+
+        if score(hand) > 21:
+            dashboard(players, dealer, name, 'Se pasó de 21 - TURNO FINALIZADO')
+            input('Presiona ENTER para continuar...')
+        elif score(hand) == 21:
+            dashboard(players, dealer, name, '21 PUNTOS - TURNO FINALIZADO')
+            input('Presiona ENTER para continuar...')
+
+    dashboard(players, dealer, 'Dealer', 'Carta oculta revelada', True)
+    input('Presiona ENTER para continuar...')
+
+    # Se aplica la regla estándar S17 sin mostrar instrucciones al dealer.
     if any(score(hand) <= 21 for hand in players.values()):
         while score(dealer) < 17:
-            dealer.append(deal(reader, 'Dealer', used, players, dealer, True))
+            dealer.append(deal(reader, 'Dealer', deck, players, dealer, True))
             dashboard(players, dealer, 'Dealer', 'Carta asignada', True)
+
+    dashboard(players, dealer, 'Dealer', 'Turno finalizado', True)
+    input('Presiona ENTER para mostrar los resultados...')
 
     dealer_score = score(dealer)
     dealer_blackjack = len(dealer) == 2 and dealer_score == 21
@@ -346,31 +434,86 @@ def play(reader):
     dashboard(players, dealer, 'Fin de partida', 'Resultados finales', True, results)
 
 
+def end_menu(deck):
+    print('\n' + '═' * 42)
+    print('             FIN DE PARTIDA')
+    print('═' * 42)
+    print(f'Cartas utilizadas: {len(deck.used)}')
+    print(f'Cartas restantes: {deck.remaining()}')
+    print(f'Estado: {deck.status()}')
+    print('\n1. Jugar otra partida (misma cantidad de jugadores)')
+    print('2. Cambiar número de jugadores')
+    print('3. Reiniciar baraja y comenzar nueva partida')
+    print('4. Salir')
+    return ask_int('Selecciona una opción: ', 1, 4)
+
+
 def main():
-    while True:
-        print('\n' + '=' * 42)
-        print('         BLACKJACK PROTOTYPE')
-        print('=' * 42)
-        print('1. Simulación manual')
-        print('2. Lector NFC USB')
-        print('3. Salir')
-        choice = ask_int('Opción: ', 1, 3)
-        if choice == 3:
-            return
-        reader = None
-        try:
-            reader = ManualReader() if choice == 1 else NFCReader()
-            while True:
-                play(reader)
-                if input('\n¿Otra partida con este modo? (S/N): ').strip().upper() != 'S':
-                    break
-        except KeyboardInterrupt:
-            print('\nPartida cancelada.')
-        except Exception as exc:
-            print(f'Error: {exc}')
-        finally:
-            if reader:
-                reader.close()
+    # Cada ejecución empieza con una baraja nueva, aunque exista un JSON previo.
+    deck = DeckMemory()
+    deck.reset()
+    print('\nNueva sesión: baraja de 52 cartas disponible.')
+
+    print('\n' + '=' * 42)
+    print('         BLACKJACK PROTOTYPE')
+    print('=' * 42)
+    print('1. Simulación manual')
+    print('2. Lector NFC USB')
+    print('3. Salir')
+    choice = ask_int('Opción: ', 1, 3)
+    if choice == 3:
+        return
+
+    reader = None
+    try:
+        reader = ManualReader() if choice == 1 else NFCReader()
+        n = ask_int('\n¿Cuántos jugadores? (1-3): ', 1, 3)
+
+        while True:
+            # Una mano requiere al menos dos cartas por jugador y dos del dealer.
+            minimum = 2 * (n + 1)
+            if deck.remaining() < minimum:
+                print(f'\nNo quedan suficientes cartas para iniciar con {n} jugador(es).')
+                print(f'Se necesitan al menos {minimum}; quedan {deck.remaining()}.')
+            else:
+                if deck.is_low():
+                    print(f'\nAVISO: baraja casi agotada ({deck.remaining()} cartas).')
+                    print('Se recomienda reiniciar antes de continuar.')
+                try:
+                    play(reader, deck, n)
+                except RuntimeError as exc:
+                    # Una mano puede necesitar más cartas que el mínimo inicial.
+                    if not deck.is_empty():
+                        raise
+                    print(f'\n{exc}')
+                    print('La mano quedó incompleta; reinicia la baraja para continuar.')
+
+            option = end_menu(deck)
+            if option == 1:
+                continue
+            if option == 2:
+                n = ask_int('¿Cuántos jugadores? (1-3): ', 1, 3)
+                continue
+            if option == 3:
+                confirmation = input('¿Confirmas una baraja física nueva/mezclada? (S/N): ').strip().upper()
+                if confirmation == 'S':
+                    deck.reset()
+                    print('Baraja reiniciada: 52 cartas disponibles.')
+                else:
+                    print('Se conserva la baraja actual.')
+                continue
+            if option == 4:
+                print('Sesión finalizada. La próxima ejecución comenzará con 52 cartas.')
+                return
+    except KeyboardInterrupt:
+        print('\nSesión interrumpida.')
+    except Exception as exc:
+        print(f'Error: {exc}')
+    finally:
+        if reader:
+            reader.close()
+        # La memoria no se arrastra a otra ejecución.
+        deck.reset()
 
 
 if __name__ == '__main__':
