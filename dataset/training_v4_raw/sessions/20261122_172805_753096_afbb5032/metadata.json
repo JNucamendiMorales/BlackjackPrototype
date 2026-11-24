@@ -1,0 +1,81 @@
+{
+  "capture_id": "20261122_172805_753096_afbb5032",
+  "timestamp": "2026-11-22T17:28:05.761509",
+  "zone": "PLAYER_1",
+  "layout": "diagonal_staircase",
+  "num_cards": 5,
+  "labels": [
+    "J_C",
+    "Q_C",
+    "7_T",
+    "7_D",
+    "9_P"
+  ],
+  "indices": [
+    {
+      "number": 1,
+      "corner": [
+        145,
+        188
+      ],
+      "rectangle": [
+        146,
+        187,
+        161,
+        217
+      ]
+    },
+    {
+      "number": 2,
+      "corner": [
+        184,
+        149
+      ],
+      "rectangle": [
+        185,
+        148,
+        200,
+        178
+      ]
+    },
+    {
+      "number": 3,
+      "corner": [
+        218,
+        115
+      ],
+      "rectangle": [
+        219,
+        114,
+        234,
+        144
+      ]
+    },
+    {
+      "number": 4,
+      "corner": [
+        247,
+        84
+      ],
+      "rectangle": [
+        248,
+        83,
+        263,
+        113
+      ]
+    },
+    {
+      "number": 5,
+      "corner": [
+        276,
+        51
+      ],
+      "rectangle": [
+        277,
+        50,
+        292,
+        80
+      ]
+    }
+  ]
+}

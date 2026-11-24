@@ -1,0 +1,83 @@
+{
+  "capture_id": "20261124_003957_843894_6cb10c09",
+  "session_id": "ad5f453653da",
+  "height_cm": 50.0,
+  "timestamp": "2026-11-24T00:39:57.853688",
+  "zone": "PLAYER_1",
+  "layout": "diagonal_staircase_right_to_left",
+  "num_cards": 5,
+  "labels": [
+    "4_C",
+    "6_T",
+    "8_C",
+    "9_D",
+    "K_D"
+  ],
+  "indices": [
+    {
+      "number": 1,
+      "corner": [
+        266,
+        14
+      ],
+      "rectangle": [
+        267,
+        13,
+        284,
+        46
+      ]
+    },
+    {
+      "number": 2,
+      "corner": [
+        231,
+        54
+      ],
+      "rectangle": [
+        232,
+        53,
+        249,
+        86
+      ]
+    },
+    {
+      "number": 3,
+      "corner": [
+        198,
+        96
+      ],
+      "rectangle": [
+        199,
+        95,
+        216,
+        128
+      ]
+    },
+    {
+      "number": 4,
+      "corner": [
+        162,
+        138
+      ],
+      "rectangle": [
+        163,
+        137,
+        180,
+        170
+      ]
+    },
+    {
+      "number": 5,
+      "corner": [
+        124,
+        183
+      ],
+      "rectangle": [
+        125,
+        182,
+        142,
+        215
+      ]
+    }
+  ]
+}

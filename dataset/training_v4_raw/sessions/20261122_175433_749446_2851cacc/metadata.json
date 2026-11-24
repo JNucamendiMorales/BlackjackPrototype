@@ -1,0 +1,82 @@
+{
+  "capture_id": "20261122_175433_749446_2851cacc",
+  "session_id": "b2500479d0ef",
+  "timestamp": "2026-11-22T17:54:33.757803",
+  "zone": "PLAYER_1",
+  "layout": "diagonal_staircase",
+  "num_cards": 5,
+  "labels": [
+    "J_C",
+    "Q_C",
+    "7_T",
+    "7_D",
+    "9_P"
+  ],
+  "indices": [
+    {
+      "number": 1,
+      "corner": [
+        143,
+        190
+      ],
+      "rectangle": [
+        144,
+        189,
+        163,
+        227
+      ]
+    },
+    {
+      "number": 2,
+      "corner": [
+        194,
+        153
+      ],
+      "rectangle": [
+        195,
+        152,
+        214,
+        190
+      ]
+    },
+    {
+      "number": 3,
+      "corner": [
+        226,
+        108
+      ],
+      "rectangle": [
+        227,
+        107,
+        246,
+        145
+      ]
+    },
+    {
+      "number": 4,
+      "corner": [
+        274,
+        76
+      ],
+      "rectangle": [
+        275,
+        75,
+        294,
+        113
+      ]
+    },
+    {
+      "number": 5,
+      "corner": [
+        291,
+        33
+      ],
+      "rectangle": [
+        292,
+        32,
+        311,
+        70
+      ]
+    }
+  ]
+}

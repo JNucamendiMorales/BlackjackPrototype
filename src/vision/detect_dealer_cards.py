@@ -139,6 +139,17 @@ def split_connected_contour(contour, binary):
 
     error = abs(w - expected_total_width) / expected_total_width
 
+    if number_cards >= 2:
+        print(
+            f"[SPLIT] Cartas={number_cards} | "
+            f"Ancho real={w} | "
+            f"Ancho esperado={expected_total_width:.1f} | "
+            f"Error={error:.1%} | "
+            f"Tolerancia={RATIO_TOLERANCE:.0%} | "
+            f"Resultado={'RECHAZADO' if error > RATIO_TOLERANCE else 'ACEPTADO'}",
+            flush=True
+        )
+
     if error > RATIO_TOLERANCE:
         return []
 

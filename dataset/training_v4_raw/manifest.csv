@@ -1,0 +1,6 @@
+capture_id,index_number,label,image_path,width,height,corner_x,corner_y
+20261122_172805_753096_afbb5032,1,J_C,dataset/training_v4_raw/images/20261122_172805_753096_afbb5032_indice_1.png,15,30,145,188
+20261122_172805_753096_afbb5032,2,Q_C,dataset/training_v4_raw/images/20261122_172805_753096_afbb5032_indice_2.png,15,30,184,149
+20261122_172805_753096_afbb5032,3,7_T,dataset/training_v4_raw/images/20261122_172805_753096_afbb5032_indice_3.png,15,30,218,115
+20261122_172805_753096_afbb5032,4,7_D,dataset/training_v4_raw/images/20261122_172805_753096_afbb5032_indice_4.png,15,30,247,84
+20261122_172805_753096_afbb5032,5,9_P,dataset/training_v4_raw/images/20261122_172805_753096_afbb5032_indice_5.png,15,30,276,51

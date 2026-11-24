@@ -1,0 +1,32 @@
+{
+    "timestamp": "2026-11-22T16:04:24.025889",
+    "zone": "PLAYER_1",
+    "reference_card": {
+        "width_px": 4,
+        "height_px": 32
+    },
+    "overlap": {
+        "dx_px": 14,
+        "dy_px": 33,
+        "dx_relative": 3.5,
+        "dy_relative": 1.03125
+    },
+    "points": [
+        [
+            158,
+            159
+        ],
+        [
+            154,
+            191
+        ],
+        [
+            172,
+            192
+        ],
+        [
+            175,
+            159
+        ]
+    ]
+}

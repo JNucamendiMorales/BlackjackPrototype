@@ -40,3 +40,8 @@ src/expected_value_optimizado_respaldo.py
 # Archivos de respaldo del editor
 *.bak
 *~
+
+# Modelos CNN del proyecto que deben sincronizarse
+!models/blackjack_model.pth
+!models/blackjack_model_v2.pth
+!models/blackjack_model_v3.pth

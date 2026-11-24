@@ -1,0 +1,6 @@
+session_id,height_cm,capture_id,index_number,label,image_path,width,height,corner_x,corner_y
+448557ccc2d5,50.0,20261124_174045_711721_d1e11fd6,1,10_D,dataset/training_v6_raw/player/images/20261124_174045_711721_d1e11fd6_indice_1.png,20,36,289,47
+448557ccc2d5,50.0,20261124_174045_711721_d1e11fd6,2,Q_C,dataset/training_v6_raw/player/images/20261124_174045_711721_d1e11fd6_indice_2.png,20,36,256,79
+448557ccc2d5,50.0,20261124_174045_711721_d1e11fd6,3,7_T,dataset/training_v6_raw/player/images/20261124_174045_711721_d1e11fd6_indice_3.png,20,36,224,114
+448557ccc2d5,50.0,20261124_174045_711721_d1e11fd6,4,J_C,dataset/training_v6_raw/player/images/20261124_174045_711721_d1e11fd6_indice_4.png,20,36,192,151
+448557ccc2d5,50.0,20261124_174045_711721_d1e11fd6,5,9_P,dataset/training_v6_raw/player/images/20261124_174045_711721_d1e11fd6_indice_5.png,20,36,159,191
